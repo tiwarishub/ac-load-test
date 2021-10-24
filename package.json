@@ -1,0 +1,24 @@
+{
+  "name": "artifact-cache-load-test",
+  "version": "1.0.0",
+  "description": "Contains scripts to run load tests on artifact cache service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/exec": "^1.1.0",
+    "@actions/http-client": "^1.0.11",
+    "fs": "0.0.1-security",
+    "semver": "^7.3.5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.4",
+    "@types/semver": "^7.3.9",
+    "@types/uuid": "^8.3.1",
+    "dotenv": "^10.0.0"
+  }
+}
