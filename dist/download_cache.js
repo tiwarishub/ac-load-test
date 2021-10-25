@@ -55,61 +55,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dotenv_1 = require("dotenv");
+var fs = __importStar(require("fs"));
 var cacheHttpClient = __importStar(require("./cacheHttpClient"));
-var utils = __importStar(require("./cacheUtils"));
+var dotenv_1 = require("dotenv");
 var path = __importStar(require("path"));
-var uuid_1 = require("uuid");
 process.on("uncaughtException", function (e) { return logWarning(e.message); });
 function logWarning(message) {
     var warningPrefix = "[warning]";
     console.log("" + warningPrefix + message);
 }
-function run() {
+function getRandomLine(filename) {
+    if (!fs.existsSync(filename)) {
+        console.log("File not found");
+        return null;
+    }
+    var array = fs.readFileSync(filename, 'utf8').toString().split('\n');
+    if (array.length <= 0) {
+        return null;
+    }
+    var line = array[Math.floor(Math.random() * array.length)];
+    return line;
+}
+function download_cache() {
     return __awaiter(this, void 0, void 0, function () {
-        var dotEnvPath, cachePaths, primaryKey, startTime, compressionMethod, cacheId, archivePath, endTime, error_1;
+        var dotEnvPath, seed_key, seed_version, saved_cache_result_sample, key, version;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    dotEnvPath = path.resolve(__dirname, "../.env");
-                    dotenv_1.config({ path: dotEnvPath });
-                    cachePaths = ["caches"];
-                    primaryKey = "aparna-ravindra-test-" + uuid_1.v4();
-                    startTime = new Date().getTime();
-                    console.log("Starting cache save for primary key=" + primaryKey + " at " + startTime);
-                    return [4 /*yield*/, utils.getCompressionMethod()];
-                case 1:
-                    compressionMethod = _a.sent();
-                    console.log('Reserving Cache');
-                    return [4 /*yield*/, cacheHttpClient.reserveCache(primaryKey, cachePaths, {
-                            compressionMethod: compressionMethod
-                        })];
-                case 2:
-                    cacheId = _a.sent();
-                    console.log("cacheId=" + cacheId);
-                    if (cacheId === -1) {
-                        console.log("Unable to reserve cache with key " + primaryKey + ", another job may be creating this cache.");
-                        return [2 /*return*/];
-                    }
-                    archivePath = path.join(".", "caches.tgz");
-                    return [4 /*yield*/, cacheHttpClient.saveCache(cacheId, archivePath)];
-                case 3:
-                    _a.sent();
-                    endTime = new Date().getTime();
-                    console.log("Cache saved with key: " + primaryKey + " at time " + endTime);
-                    console.log("Time taken for saving cache key =" + primaryKey + " = " + (endTime - startTime));
-                    return [3 /*break*/, 5];
-                case 4:
-                    error_1 = _a.sent();
-                    logWarning("an error occured");
-                    console.log(error_1);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+            try {
+                dotEnvPath = path.resolve(__dirname, "../.env");
+                dotenv_1.config({ path: dotEnvPath });
+                seed_key = process.env.SEED_PRIMARY_KEY || 'randomkey';
+                seed_version = process.env.SEED_VERSION || 'randomversion';
+                saved_cache_result_sample = getRandomLine("/tmp/saved_cache_result");
+                key = seed_key;
+                version = seed_version;
+                if (saved_cache_result_sample && saved_cache_result_sample.split(",").length == 2) {
+                    key = saved_cache_result_sample.split(",")[0];
+                    version = saved_cache_result_sample.split(",")[1];
+                }
+                cacheHttpClient.getCacheEntry(key, version);
             }
+            catch (error) {
+                logWarning("an error occured");
+                console.log(error);
+            }
+            return [2 /*return*/];
         });
     });
 }
-run();
-exports.default = run;
-//# sourceMappingURL=index.js.map
+download_cache();
+exports.default = download_cache;
+//# sourceMappingURL=download_cache.js.map

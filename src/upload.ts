@@ -3,7 +3,7 @@ import * as cacheHttpClient from "./cacheHttpClient"
 import * as utils from "./cacheUtils"
 import * as path from 'path'
 import { v4 as uuidv4 } from 'uuid';
-
+import * as fs from 'fs'
 process.on("uncaughtException", e => logWarning(e.message));
 
 function logWarning(message: string): void {
@@ -40,8 +40,8 @@ async function run(): Promise<void> {
         const endTime = new Date().getTime()
         console.log(`Cache saved with key: ${primaryKey} at time ` + endTime );
         console.log("Time taken for saving cache key =" + primaryKey + " = "+ (endTime - startTime))
-        
-        
+        const cacheVersion = cacheHttpClient.getCacheVersion(cachePaths, compressionMethod)
+        fs.appendFileSync( "/tmp/saved_cache_result", primaryKey +"," + cacheVersion )
     } catch (error) {
         logWarning("an error occured");
         console.log(error)

@@ -6,6 +6,7 @@ import {CompressionMethod, DefaultRetryDelay, DefaultRetryAttempts} from './cons
 import * as utils from './cacheUtils'
 import * as fs from 'fs'
 import {
+    ArtifactCacheEntry,
     InternalCacheOptions,
     CommitCacheRequest,
     ReserveCacheRequest,
@@ -218,6 +219,23 @@ async function commitCache(
   )
 }
 
+export async function getCacheEntry(primaryKey:string, version: string,) {
+    const resource = `cache?keys=${encodeURIComponent(
+        primaryKey
+      )}&version=${version}`
+      const httpClient = createHttpClient()
+      const response = await retryTypedResponse('getCacheEntry', async () =>
+            httpClient.getJson<ArtifactCacheEntry>(getCacheApiUrl(resource))
+      )
+      if (!isSuccessStatusCode(response.statusCode)) {
+        throw new Error(
+          `Cache service responded with ${response.statusCode} during getCacheEntry for <${primaryKey} ${version}>`
+        )
+      }
+      else {
+          console.log(response.statusCode)
+      }
+}
 export async function saveCache(
   cacheId: number,
   archivePath: string,
@@ -242,4 +260,6 @@ export async function saveCache(
   }
 
   console.log('Cache saved successfully')
+
+
 }

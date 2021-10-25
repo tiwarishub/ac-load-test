@@ -1,6 +1,4 @@
 import * as fs from 'fs'
-import * as path from 'path'
-import * as semver from 'semver'
 import * as exec from '@actions/exec'
 import * as util from 'util'
 import {CacheFilename, CompressionMethod} from './constants'

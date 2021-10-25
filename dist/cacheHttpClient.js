@@ -76,7 +76,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveCache = exports.reserveCache = exports.getCacheVersion = void 0;
+exports.saveCache = exports.getCacheEntry = exports.reserveCache = exports.getCacheVersion = void 0;
 var http_client_1 = require("@actions/http-client");
 var auth_1 = require("@actions/http-client/auth");
 var crypto = __importStar(require("crypto"));
@@ -285,6 +285,32 @@ function commitCache(httpClient, cacheId, filesize) {
         });
     });
 }
+function getCacheEntry(primaryKey, version) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resource, httpClient, response;
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    resource = "cache?keys=" + encodeURIComponent(primaryKey) + "&version=" + version;
+                    httpClient = createHttpClient();
+                    return [4 /*yield*/, requestUtils_1.retryTypedResponse('getCacheEntry', function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                            return [2 /*return*/, httpClient.getJson(getCacheApiUrl(resource))];
+                        }); }); })];
+                case 1:
+                    response = _a.sent();
+                    if (!requestUtils_1.isSuccessStatusCode(response.statusCode)) {
+                        throw new Error("Cache service responded with " + response.statusCode + " during getCacheEntry for <" + primaryKey + " " + version + ">");
+                    }
+                    else {
+                        console.log(response.statusCode);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.getCacheEntry = getCacheEntry;
 function saveCache(cacheId, archivePath) {
     return __awaiter(this, void 0, void 0, function () {
         var httpClient, cacheSize, commitCacheResponse;

@@ -27,4 +27,8 @@ wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test5Gb-a.db
 mv ftp.otenet.gr/test5Gb-a.db ./caches.tgz
 
 
+touch /tmp/saved_cache_result
+chmod 666 /tmp/saved_cache_result
+
+
 

@@ -35,5 +35,5 @@ echo "ACTIONS_CACHE_URL=${ACTIONS_CACHE_URL}"
 echo "ACTIONS_RUNTIME_TOKEN=${ACTIONS_RUNTIME_TOKEN}"
 
 az vmss list-instances -n $VMSS_NAME -g $RESOURCE_GROUP --query "[].id" --output tsv | \
-az vmss run-command invoke --scripts 'cd /tmp/ac-load-test && echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2" > .env && cat .env && python3 load.py' --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL  \
+az vmss run-command invoke --scripts 'cd /tmp/ac-load-test && echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2" > .env && cat .env && python3 load.py >> /tmp/cache.log 2>> /tmp/cache.log' --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL  \
     --command-id RunShellScript --ids @-
