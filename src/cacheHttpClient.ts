@@ -118,14 +118,6 @@ async function uploadChunk(
   start: number,
   end: number
 ): Promise<void> {
-  console.log(
-    `Uploading chunk of size ${end -
-      start +
-      1} bytes at offset ${start} with content range: ${getContentRange(
-      start,
-      end
-    )}`
-  )
   const additionalHeaders = {
     'Content-Type': 'application/octet-stream',
     'Content-Range': getContentRange(start, end)

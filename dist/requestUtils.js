@@ -77,7 +77,7 @@ function retry(name, method, getStatusCode, maxAttempts, delay, onError) {
     if (delay === void 0) { delay = constants_1.DefaultRetryDelay; }
     if (onError === void 0) { onError = undefined; }
     return __awaiter(this, void 0, void 0, function () {
-        var errorMessage, attempt, response, statusCode, isRetryable, error_1;
+        var errorMessage, attempt, response, statusCode, isRetryable, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -97,10 +97,7 @@ function retry(name, method, getStatusCode, maxAttempts, delay, onError) {
                     response = _a.sent();
                     return [3 /*break*/, 5];
                 case 4:
-                    error_1 = _a.sent();
-                    if (onError) {
-                        response = onError(error_1);
-                    }
+                    err_1 = _a.sent();
                     isRetryable = true;
                     errorMessage = "something went wrong";
                     return [3 /*break*/, 5];

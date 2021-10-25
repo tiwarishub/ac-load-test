@@ -170,9 +170,6 @@ function uploadChunk(httpClient, resourceUrl, openStream, start, end) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log("Uploading chunk of size " + (end -
-                        start +
-                        1) + " bytes at offset " + start + " with content range: " + getContentRange(start, end));
                     additionalHeaders = {
                         'Content-Type': 'application/octet-stream',
                         'Content-Range': getContentRange(start, end)
