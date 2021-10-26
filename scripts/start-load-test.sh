@@ -48,9 +48,9 @@ fi
 
 if [[ $UPLOAD_CACHE_SIZE_GB -gt 5 ]]
 then
-  CACHE_FILE="caches_5GB.tgz"
-else
   CACHE_FILE="caches_10GB.tgz"
+else
+  CACHE_FILE="caches_5GB.tgz"
 fi
 
 RESOURCE_GROUP=${RESOURCE_GROUP:-$VMSS_NAME}
