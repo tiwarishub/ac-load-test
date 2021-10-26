@@ -7,7 +7,7 @@ The reason for coming up with this repo instead of using the above mentioned cod
 
 
 ### How to start the load test
-- The script in this repo can be run locally. However, I observe that there are some timeouts observed. Hence the need to run the scripts from a VM. 
+- The script in this repo can be run locally. However, I observe that there are some timeouts. Hence the need to run the scripts from a VM. 
 - In the real world scenario, hosted runners are on Azure's US East region. Hence creating a VM in the same region makes for better real world simulation.
 
 ##### Step 0a : Clone this repository
