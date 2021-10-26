@@ -45,3 +45,5 @@ You can increase the number of instances in this VM scale set by providing appro
 ```
 
 The `VMSS_NAME` is the same as the one created in the previous step. The `ACTIONS_CACHE_URL` and `ACTIONS_RUNTIME_TOKEN` are available to runners in real world scenario as environment variables. The load test script expects them to be set in input so that it can inturn set the env variables. 
+
+You can increase the load test time, the request per min, etc by providing appropriate arguments to the script. See the script for more details. 
