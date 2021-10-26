@@ -128,10 +128,8 @@ if [ -z "$SCRIPT_EXTENSION" ]; then
   az storage blob upload -c $CONTAINER_NAME -f "$SCRIPT_DIR/prepare-load-test-script.sh" -n prepare-load-test-script.sh --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_KEY --output none
   echo -e "[$(date +%Y-%m-%dT%H:%M:%S)] \033[0;32mSuccessfully uploaded setup script from $SCRIPT_DIR/prepare-load-test-script.sh to $STORAGE_ACCOUNT_NAME/$CONTAINER_NAME\033[0m"
 
-  get_token
-  echo $GHES_TOKEN
 
-  echo "[$(date +%Y-%m-%dT%H:%M:%S)] Creating script extension for runner registration"
+  echo "[$(date +%Y-%m-%dT%H:%M:%S)] Creating script extension for perf test vm creation"
   SCRIPT_FILE_URI=$(az storage blob url --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_KEY -c $CONTAINER_NAME -n prepare-load-test-script.sh)
 
   az vmss extension set \
@@ -144,7 +142,7 @@ if [ -z "$SCRIPT_EXTENSION" ]; then
     --settings "{ \"fileUris\": [${SCRIPT_FILE_URI}] }" \
     --protected-settings "{ \"commandToExecute\": \"sudo -E ./prepare-load-test-script.sh\" }" \
     --output none
-  echo -e "[$(date +%Y-%m-%dT%H:%M:%S)] \033[0;32mSuccessfully created script extension for runner registration\033[0m"
+  echo -e "[$(date +%Y-%m-%dT%H:%M:%S)] \033[0;32mSuccessfully created script extension for perf test vm creation\033[0m"
 fi
 
 CAPACITY=$(echo $VMSS | jq -r '.sku.capacity')
