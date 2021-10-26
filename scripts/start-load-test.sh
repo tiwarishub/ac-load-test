@@ -1,9 +1,10 @@
 #!/bin/bash
 
-DOWNLOAD_CACHE_RPM = 300
-UPLOAD_CACHE_JPM = 2
-LOAD_TEST_TIME_MIN = 2
-UPLOAD_CACHE_SIZE_GB = 5
+DOWNLOAD_CACHE_RPM=300
+UPLOAD_CACHE_JPM=2
+LOAD_TEST_TIME_MIN=2
+UPLOAD_CACHE_SIZE_GB=5
+
 while getopts :g:n:c:l:j:t:s opt; do
   case "$opt" in
     c) ACTIONS_CACHE_URL=$OPTARG
@@ -19,6 +20,7 @@ while getopts :g:n:c:l:j:t:s opt; do
     t) LOAD_TEST_TIME_MIN=$OPTARG
       ;;
     s) UPLOAD_CACHE_SIZE_GB=$OPTARG
+      ;;
     *)
   esac
 done
@@ -39,9 +41,9 @@ if [ -z $ACTIONS_RUNTIME_TOKEN ]; then
     exit 1
 fi
 
-if [[ "${UPLOAD_CACHE_SIZE_GB}" =~ ^(5|10)$ ]]; then
+if [[ ! $UPLOAD_CACHE_SIZE_GB =~ ^(5|10)$ ]]; then
     echo "UPLOAD_CACHE_SIZE_GB must be 5 or 10"
-    exit 1
+    
 fi
 
 if [[ $UPLOAD_CACHE_SIZE_GB -gt 5 ]]
@@ -56,6 +58,10 @@ echo "RESOURCE_GROUP=${RESOURCE_GROUP}"
 echo "VMSS_NAME=${VMSS_NAME}"
 echo "ACTIONS_CACHE_URL=${ACTIONS_CACHE_URL}"
 echo "ACTIONS_RUNTIME_TOKEN=${ACTIONS_RUNTIME_TOKEN}"
+echo "UPLOAD_CACHE_SIZE_GB=${UPLOAD_CACHE_SIZE_GB}"
+echo "DOWNLOAD_CACHE_RPM (requests per min)=${DOWNLOAD_CACHE_RPM}"
+echo "UPLOAD_CACHE_JPM (Jobs per min)=${UPLOAD_CACHE_JPM}"
+echo "LOAD_TEST_TIME_MIN=${LOAD_TEST_TIME_MIN}"
 
 USER_NAME=$(az account show --query user.name | tr -d '"')
 CURRENT_TIME=$(date +%s000)
