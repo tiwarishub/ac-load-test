@@ -49,7 +49,8 @@ args = parser.parse_args()
 start_time = time.time()
 interval_s = (1/args.jobs_per_min)*60
 max_time = 60 * args.time_to_run_in_minutes 
-download_cache_thread = Thread(target=start_download_cache, args=(max_time, args.download_cache_thread_rpm))
+download_cache_thread_rpm = float(args.download_cache_thread_rpm)
+download_cache_thread = Thread(target=start_download_cache, args=(max_time, download_cache_thread_rpm))
 download_cache_thread.start()
 
 while (time.time() - start_time) < max_time:
