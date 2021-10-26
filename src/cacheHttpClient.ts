@@ -53,9 +53,9 @@ function createHttpClient(): HttpClient {
     throw new Error('ACTIONS_RUNTIME_TOKEN not found, unable to creat HttpClient .')
   }
   const bearerCredentialHandler = new BearerCredentialHandler(token)
-
+  var userAgent = process.env['USER_AGENT'] || 'actions/cache';
   return new HttpClient(
-    'actions/cache',
+    userAgent,
     [bearerCredentialHandler],
     getRequestOptions()
   )

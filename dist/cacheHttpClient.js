@@ -112,7 +112,8 @@ function createHttpClient() {
         throw new Error('ACTIONS_RUNTIME_TOKEN not found, unable to creat HttpClient .');
     }
     var bearerCredentialHandler = new auth_1.BearerCredentialHandler(token);
-    return new http_client_1.HttpClient('actions/cache', [bearerCredentialHandler], getRequestOptions());
+    var userAgent = process.env['USER_AGENT'] || 'actions/cache';
+    return new http_client_1.HttpClient(userAgent, [bearerCredentialHandler], getRequestOptions());
 }
 function getCacheVersion(paths, compressionMethod) {
     var components = paths.concat(!compressionMethod || compressionMethod === constants_1.CompressionMethod.Gzip
