@@ -101,7 +101,7 @@ function run() {
                     console.log("Cache saved with key: " + primaryKey + " at time " + endTime);
                     console.log("Time taken for saving cache key =" + primaryKey + " = " + (endTime - startTime));
                     cacheVersion = cacheHttpClient.getCacheVersion(cachePaths, compressionMethod);
-                    fs.appendFileSync("/tmp/saved_cache_result", primaryKey + "," + cacheVersion);
+                    fs.appendFileSync("/tmp/saved_cache_result", primaryKey + "," + cacheVersion + "\n");
                     return [3 /*break*/, 5];
                 case 4:
                     error_1 = _a.sent();

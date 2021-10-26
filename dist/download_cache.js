@@ -88,12 +88,6 @@ function download_cache() {
                 saved_cache_result_sample = getRandomLine("/tmp/saved_cache_result");
                 key = seed_key;
                 version = seed_version;
-                if (saved_cache_result_sample) {
-                    console.log(saved_cache_result_sample);
-                }
-                else {
-                    console.log("no data found in saved_cache_result_sample");
-                }
                 if (saved_cache_result_sample && saved_cache_result_sample.split(",").length == 2) {
                     key = saved_cache_result_sample.split(",")[0];
                     version = saved_cache_result_sample.split(",")[1];

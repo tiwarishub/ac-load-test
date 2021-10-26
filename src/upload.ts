@@ -41,7 +41,7 @@ async function run(): Promise<void> {
         console.log(`Cache saved with key: ${primaryKey} at time ` + endTime );
         console.log("Time taken for saving cache key =" + primaryKey + " = "+ (endTime - startTime))
         const cacheVersion = cacheHttpClient.getCacheVersion(cachePaths, compressionMethod)
-        fs.appendFileSync( "/tmp/saved_cache_result", primaryKey +"," + cacheVersion )
+        fs.appendFileSync( "/tmp/saved_cache_result", primaryKey +"," + cacheVersion +"\n")
     } catch (error) {
         logWarning("an error occured");
         console.log(error)
