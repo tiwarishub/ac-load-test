@@ -68,7 +68,7 @@ function logWarning(message) {
 }
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var dotEnvPath, cachePaths, primaryKey, startTime, compressionMethod, cacheId, archivePath, endTime, cacheVersion, error_1;
+        var dotEnvPath, cachePaths, primaryKey, startTime, compressionMethod, cacheId, cache_file, archivePath, endTime, cacheVersion, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -93,7 +93,8 @@ function run() {
                         console.log("Unable to reserve cache with key " + primaryKey + ", another job may be creating this cache.");
                         return [2 /*return*/];
                     }
-                    archivePath = path.join(".", "caches.tgz");
+                    cache_file = process.env['CACHE_FILE'] || 'caches_5GB.tgz';
+                    archivePath = path.join(".", cache_file);
                     return [4 /*yield*/, cacheHttpClient.saveCache(cacheId, archivePath)];
                 case 3:
                     _a.sent();

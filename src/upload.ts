@@ -32,9 +32,10 @@ async function run(): Promise<void> {
             )
             return
         }
+        const cache_file: string = process.env['CACHE_FILE'] || 'caches_5GB.tgz'
         const archivePath = path.join(
             ".",
-            "caches.tgz"
+            cache_file
           )
         await cacheHttpClient.saveCache(cacheId, archivePath)
         const endTime = new Date().getTime()

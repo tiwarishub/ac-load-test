@@ -23,8 +23,8 @@ tsc
 
 # create a payload file 
 echo "create a payload file"
-wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test5Gb-a.db
-mv ftp.otenet.gr/test5Gb-a.db ./caches.tgz
+wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test5Gb-a.db -o caches_5GB.tgz
+wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test10Gb.db -o caches_10GB.tgz
 
 
 touch /tmp/saved_cache_result
