@@ -35,6 +35,12 @@ async function download_cache(): Promise<void> {
         var saved_cache_result_sample = getRandomLine("/tmp/saved_cache_result")
         var key = seed_key
         var version = seed_version
+        if(saved_cache_result_sample) {
+            console.log(saved_cache_result_sample)
+        }
+        else {
+            console.log("no data found in saved_cache_result_sample")
+        }
         if(saved_cache_result_sample && saved_cache_result_sample.split(",").length == 2) {
             key = saved_cache_result_sample.split(",")[0]
             version = saved_cache_result_sample.split(",")[1]
