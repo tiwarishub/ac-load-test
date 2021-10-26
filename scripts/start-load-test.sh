@@ -73,6 +73,6 @@ az vmss list-instances -n $VMSS_NAME -g $RESOURCE_GROUP --query "[].id" --output
 az vmss run-command invoke  --scripts 'echo "" > /tmp/saved_cache_result' \
               'cd /tmp/ac-load-test' \
               'echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2\nUSER_AGENT=$3\nCACHE_FILE=$4" > .env' \
-              '&&  python3 load.py $5 $6 $7' \
+              'python3 load.py $5 $6 $7' \
     --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL $USER_AGENT $CACHE_FILE $DOWNLOAD_CACHE_RPM $UPLOAD_CACHE_JPM $LOAD_TEST_TIME_MIN \
     --command-id RunShellScript --ids @-
