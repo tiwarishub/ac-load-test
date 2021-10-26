@@ -66,9 +66,9 @@ echo "LOAD_TEST_TIME_MIN=${LOAD_TEST_TIME_MIN}"
 USER_NAME=$(az account show --query user.name | tr -d '"')
 CURRENT_TIME=$(date +%s000)
 USER_AGENT="$USER_NAME/$CURRENT_TIME"
-echo "=====================================================\n"
+echo "====================================================="
 echo "STARTING LOAD TEST : ${USER_AGENT}"
-echo "=====================================================\n"
+echo "====================================================="
 az vmss list-instances -n $VMSS_NAME -g $RESOURCE_GROUP --query "[].id" --output tsv | \
 az vmss run-command invoke  --scripts 'echo "" > /tmp/saved_cache_result' \
               'cd /tmp/ac-load-test' \
