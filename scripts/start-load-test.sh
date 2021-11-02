@@ -5,7 +5,7 @@ UPLOAD_CACHE_JPM=2
 LOAD_TEST_TIME_MIN=2
 UPLOAD_CACHE_SIZE_GB=5
 
-while getopts :g:n:c:l:j:t:s opt; do
+while getopts :g:n:c:l:j:t:s:i opt; do
   case "$opt" in
     c) ACTIONS_CACHE_URL=$OPTARG
       ;;
@@ -21,6 +21,8 @@ while getopts :g:n:c:l:j:t:s opt; do
       ;;
     s) UPLOAD_CACHE_SIZE_GB=$OPTARG
       ;;
+    i) INSTANCE_ID=$OPTARG
+      ;;
     *)
   esac
 done
@@ -28,6 +30,11 @@ done
 
 if [ -z $VMSS_NAME ]; then
     echo "VMSS name must be specified using -n"
+    exit 1
+fi
+
+if [ -z $INSTANCE_ID ]; then
+    echo "INSTANCE_ID name must be specified using -i"
     exit 1
 fi
 
@@ -75,4 +82,4 @@ az vmss run-command invoke  --scripts 'echo "" > /tmp/saved_cache_result' \
               'echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2\nUSER_AGENT=$3\nCACHE_FILE=$4" > .env' \
               'python3 load.py $5 $6 $7' \
     --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL $USER_AGENT $CACHE_FILE $DOWNLOAD_CACHE_RPM $UPLOAD_CACHE_JPM $LOAD_TEST_TIME_MIN \
-    --command-id RunShellScript --ids @-
+    --command-id RunShellScript --instance-id $INSTANCE_ID --ids @-
