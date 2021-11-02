@@ -13,7 +13,7 @@ npm install typescript -g
 
 cd /tmp
 
-git clone "https://github.com/aparna-ravindra/ac-load-test.git"
+git clone "https://github.com/tiwarishub/ac-load-test.git"
 
 # setup load test script
 echo "setup load test script"
@@ -23,9 +23,10 @@ tsc
 
 # create a payload file 
 echo "create a payload file"
-wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test5Gb-a.db -o caches_5GB.tgz
-wget -m ftp://speedtest:speedtest@ftp.otenet.gr/test10Gb.db -o caches_10GB.tgz
-
+wget https://test2.fibertelecom.it/5GB.zip
+mv 5GB.zip caches_5GB.tgz
+wget http://speedtest.tele2.net/10GB.zip
+mv 10GB.zip caches_10GB.tgz
 
 touch /tmp/saved_cache_result
 chmod 666 /tmp/saved_cache_result
