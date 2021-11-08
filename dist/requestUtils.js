@@ -60,7 +60,8 @@ function isRetryableStatusCode(statusCode) {
     var retryableStatusCodes = [
         http_client_1.HttpCodes.BadGateway,
         http_client_1.HttpCodes.ServiceUnavailable,
-        http_client_1.HttpCodes.GatewayTimeout
+        http_client_1.HttpCodes.GatewayTimeout,
+        0
     ];
     return retryableStatusCodes.includes(statusCode);
 }

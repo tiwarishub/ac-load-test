@@ -70,10 +70,9 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveCache = exports.getCacheEntry = exports.reserveCache = exports.getCacheVersion = void 0;
@@ -205,7 +204,7 @@ function uploadFile(httpClient, cacheId, archivePath) {
                     console.log("fileSize=" + fileSize);
                     concurrency = 4;
                     maxChunkSize = 32 * 1024 * 1024;
-                    parallelUploads = __spreadArray([], __read(new Array(concurrency).keys()));
+                    parallelUploads = __spread(new Array(concurrency).keys());
                     console.log('Awaiting all uploads');
                     offset = 0;
                     _a.label = 1;
@@ -218,8 +217,8 @@ function uploadFile(httpClient, cacheId, archivePath) {
                                     case 0:
                                         _loop_1 = function () {
                                             var chunkSize, start, end;
-                                            return __generator(this, function (_b) {
-                                                switch (_b.label) {
+                                            return __generator(this, function (_a) {
+                                                switch (_a.label) {
                                                     case 0:
                                                         chunkSize = Math.min(fileSize - offset, maxChunkSize);
                                                         start = offset;
@@ -238,7 +237,7 @@ function uploadFile(httpClient, cacheId, archivePath) {
                                                                 });
                                                             }, start, end)];
                                                     case 1:
-                                                        _b.sent();
+                                                        _a.sent();
                                                         return [2 /*return*/];
                                                 }
                                             });
