@@ -5,7 +5,7 @@ UPLOAD_CACHE_JPM=2
 LOAD_TEST_TIME_MIN=2
 UPLOAD_CACHE_SIZE_GB=5
 
-while getopts :g:n:c:l:j:t:s:i opt; do
+while getopts :i:c:g:n:l:j:t:s opt; do
   case "$opt" in
     c) ACTIONS_CACHE_URL=$OPTARG
       ;;
@@ -50,7 +50,7 @@ fi
 
 if [[ ! $UPLOAD_CACHE_SIZE_GB =~ ^(5|10)$ ]]; then
     echo "UPLOAD_CACHE_SIZE_GB must be 5 or 10"
-    
+
 fi
 
 if [[ $UPLOAD_CACHE_SIZE_GB -gt 5 ]]
@@ -76,10 +76,8 @@ USER_AGENT="$USER_NAME/$CURRENT_TIME"
 echo "====================================================="
 echo "STARTING LOAD TEST : ${USER_AGENT}"
 echo "====================================================="
-az vmss list-instances -n $VMSS_NAME -g $RESOURCE_GROUP --query "[].id" --output tsv | \
-az vmss run-command invoke  --scripts 'echo "" > /tmp/saved_cache_result' \
+az vmss run-command invoke --resource-group ashwinsangem5 --name ashwinsangem5 --command-id RunShellScript --instance-id $INSTANCE_ID --scripts 'echo "" > /tmp/saved_cache_result' \
               'cd /tmp/ac-load-test' \
               'echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2\nUSER_AGENT=$3\nCACHE_FILE=$4" > .env' \
               'python3 load.py $5 $6 $7' \
-    --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL $USER_AGENT $CACHE_FILE $DOWNLOAD_CACHE_RPM $UPLOAD_CACHE_JPM $LOAD_TEST_TIME_MIN \
-    --command-id RunShellScript --instance-id $INSTANCE_ID --ids @-
+    --parameters $ACTIONS_RUNTIME_TOKEN $ACTIONS_CACHE_URL $USER_AGENT $CACHE_FILE $DOWNLOAD_CACHE_RPM $UPLOAD_CACHE_JPM $LOAD_TEST_TIME_MIN
