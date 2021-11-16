@@ -26,8 +26,7 @@ export function isRetryableStatusCode(statusCode?: number): boolean {
   const retryableStatusCodes = [
     HttpCodes.BadGateway,
     HttpCodes.ServiceUnavailable,
-    HttpCodes.GatewayTimeout,
-    0
+    HttpCodes.GatewayTimeout
   ]
   return retryableStatusCodes.includes(statusCode)
 }
