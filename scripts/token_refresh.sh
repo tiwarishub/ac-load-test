@@ -1,6 +1,15 @@
 #!/bin/bash
 
-while IFS=, read -r repo c_url c_token
+if [ -z $1 ]; then
+    echo "FileName should be passed as first argument."
+    exit 1
+fi
+
+file_name=`basename $1`
+repo_secret_file=${file_name%.*}.secrets
+
+rm -rf .new_data_file.txt
+while read -r repo 
 do
  gh workflow run test -R bbq-beets/${repo}
  sleep 20
@@ -17,6 +26,6 @@ do
   echo "${repo},${url},${token}" >> .new_data_file.txt
  fi
  rm -f .${run_id}.log
-done < ./scripts/data.txt
+done < $1
 
-mv .new_data_file.txt ./scripts/data.txt
+mv .new_data_file.txt $repo_secret_file

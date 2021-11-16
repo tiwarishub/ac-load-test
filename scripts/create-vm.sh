@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VM_SKU='Standard_D2s_v4'
+VM_SKU='Standard_D2s_v3'
 VM_COUNT=1
 LOCATION='EastUS2'
 VM_IMAGE='Canonical:UbuntuServer:18.04-LTS:latest'
@@ -119,11 +119,11 @@ else
   echo "[$(date +%Y-%m-%dT%H:%M:%S)] Found existing VMSS $VMSS_NAME"
 fi
 
+
 EXTENSION_NAME='PerfInit'
 SCRIPT_EXTENSION=$(echo $VMSS | jq -r ".virtualMachineProfile.extensionProfile.extensions | .[] | select(.name==\"$EXTENSION_NAME\")")
 if [ -z "$SCRIPT_EXTENSION" ]; then
   SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
   echo "[$(date +%Y-%m-%dT%H:%M:%S)] Uploading setup script from $SCRIPT_DIR/prepare-load-test-script.sh to $STORAGE_ACCOUNT_NAME/$CONTAINER_NAME"
   az storage blob upload -c $CONTAINER_NAME -f "$SCRIPT_DIR/prepare-load-test-script.sh" -n prepare-load-test-script.sh --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_KEY --output none
   echo -e "[$(date +%Y-%m-%dT%H:%M:%S)] \033[0;32mSuccessfully uploaded setup script from $SCRIPT_DIR/prepare-load-test-script.sh to $STORAGE_ACCOUNT_NAME/$CONTAINER_NAME\033[0m"

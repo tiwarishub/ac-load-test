@@ -3,9 +3,9 @@
 DOWNLOAD_CACHE_RPM=10
 UPLOAD_CACHE_JPM=2
 LOAD_TEST_TIME_MIN=2
-UPLOAD_CACHE_SIZE_GB=5
+UPLOAD_CACHE_SIZE_GB=10
 
-while getopts :i:c:g:n:l:j:t:s opt; do
+while getopts :i:c:g:n:l:j:t:s:u: opt; do
   case "$opt" in
     c) ACTIONS_CACHE_URL=$OPTARG
       ;;
@@ -22,6 +22,8 @@ while getopts :i:c:g:n:l:j:t:s opt; do
     s) UPLOAD_CACHE_SIZE_GB=$OPTARG
       ;;
     i) INSTANCE_ID=$OPTARG
+      ;;
+    u) USER_AGENT=$OPTARG
       ;;
     *)
   esac
@@ -48,9 +50,15 @@ if [ -z $ACTIONS_RUNTIME_TOKEN ]; then
     exit 1
 fi
 
+if [ -z $USER_AGENT ]; then
+  echo "USERAGENT IS NOT PASSED"
+  USER_NAME=$(az account show --query user.name | tr -d '"')
+  CURRENT_TIME=$(date +%s000)
+  USER_AGENT="$USER_NAME/$CURRENT_TIME"
+fi
+
 if [[ ! $UPLOAD_CACHE_SIZE_GB =~ ^(5|10)$ ]]; then
     echo "UPLOAD_CACHE_SIZE_GB must be 5 or 10"
-
 fi
 
 if [[ $UPLOAD_CACHE_SIZE_GB -gt 5 ]]
@@ -64,19 +72,17 @@ RESOURCE_GROUP=${RESOURCE_GROUP:-$VMSS_NAME}
 echo "RESOURCE_GROUP=${RESOURCE_GROUP}"
 echo "VMSS_NAME=${VMSS_NAME}"
 echo "ACTIONS_CACHE_URL=${ACTIONS_CACHE_URL}"
-echo "ACTIONS_RUNTIME_TOKEN=${ACTIONS_RUNTIME_TOKEN}"
+# echo "ACTIONS_RUNTIME_TOKEN=${ACTIONS_RUNTIME_TOKEN}"
 echo "UPLOAD_CACHE_SIZE_GB=${UPLOAD_CACHE_SIZE_GB}"
 echo "DOWNLOAD_CACHE_RPM (requests per min)=${DOWNLOAD_CACHE_RPM}"
 echo "UPLOAD_CACHE_JPM (Jobs per min)=${UPLOAD_CACHE_JPM}"
 echo "LOAD_TEST_TIME_MIN=${LOAD_TEST_TIME_MIN}"
+echo "USER AGENT=${USER_AGENT}"
 
-USER_NAME=$(az account show --query user.name | tr -d '"')
-CURRENT_TIME=$(date +%s000)
-USER_AGENT="$USER_NAME/$CURRENT_TIME"
 echo "====================================================="
 echo "STARTING LOAD TEST : ${USER_AGENT}"
 echo "====================================================="
-az vmss run-command invoke --resource-group ashwinsangem5 --name ashwinsangem5 --command-id RunShellScript --instance-id $INSTANCE_ID --scripts 'echo "" > /tmp/saved_cache_result' \
+az vmss run-command invoke --resource-group tiwarishub-AC1 --name tiwarishub-AC1 --command-id RunShellScript --instance-id $INSTANCE_ID --scripts 'echo "" > /tmp/saved_cache_result' \
               'cd /tmp/ac-load-test' \
               'echo "ACTIONS_RUNTIME_TOKEN=$1\nACTIONS_CACHE_URL=$2\nUSER_AGENT=$3\nCACHE_FILE=$4" > .env' \
               'python3 load.py $5 $6 $7' \
