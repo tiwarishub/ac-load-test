@@ -16,7 +16,7 @@ async function run(): Promise<void> {
         const dotEnvPath = path.resolve(__dirname, "../.env");
         config({ path: dotEnvPath });
         const cachePaths = ["caches"]
-        const primaryKey = "aparna-ravindra-test-"+uuidv4()
+        const primaryKey = "ac-load-test-"+uuidv4()
         const startTime = new Date().getTime()
         console.log("Starting cache save for primary key="+ primaryKey+ " at "+ startTime)
         const compressionMethod = await utils.getCompressionMethod()

@@ -76,7 +76,7 @@ function run() {
                     dotEnvPath = path.resolve(__dirname, "../.env");
                     dotenv_1.config({ path: dotEnvPath });
                     cachePaths = ["caches"];
-                    primaryKey = "aparna-ravindra-test-" + uuid_1.v4();
+                    primaryKey = "ac-load-test-" + uuid_1.v4();
                     startTime = new Date().getTime();
                     console.log("Starting cache save for primary key=" + primaryKey + " at " + startTime);
                     return [4 /*yield*/, utils.getCompressionMethod()];
