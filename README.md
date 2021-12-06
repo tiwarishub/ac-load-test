@@ -50,7 +50,7 @@ and this will create ring1_repo_data.secrets file, which will be used in next st
 ##### Step 3 : Start the load test
 
 ```
-./scripts/start-load-test.sh -n <<VMSS_NAME>> -f <<DATA_FILE>>
+sh scripts/start-load-test.sh -n <<VMSS_NAME>> -f <<DATA_FILE>>
 ```
 
 The `VMSS_NAME` is the same as the one created in the previous step. The load test script expects them to be set in input so that it can inturn set the env variables. 
