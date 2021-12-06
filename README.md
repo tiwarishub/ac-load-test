@@ -25,10 +25,10 @@ The scipt assumes that you have the following packages installed on your laptop
 - typescript
 - python 3
 
-##### Step 1 : Prepare the VM from where the load test will start
+##### Step 1 : Prepare the VM from where the load test will start.
 
 ```
-./scripts/create-vm.sh -n <<VMSS_NAME>>
+sh scripts/create-vm.sh -n <<VMSS_NAME>>
 ```
 
 This script creates a new resource group and VM scale set of the given name. The scale set creates VM in `EastUS2` location. with the script present in the `scrips/prepare-load-test-script.sh` file. This step takes about ~10minutes to complete.
@@ -37,13 +37,22 @@ Once the script is successful, you will have a VM scale set with 1 instance. In 
 
 You can increase the number of instances in this VM scale set by providing appropriate arguments to the script. See the script for more details. 
 
+##### Step 2: Start the token refresh script to create a ``.secrets`` file which will have tokens and base url for APIs to hit
+```
+sh scripts/token_refresh.sh <<repo_file>>
+```
+For example, for repos which are in ring1
+```
+sh scripts/token_refresh.sh ring1_repo_data.txt
+```
+and this will create ring1_repo_data.secrets file, which will be used in next step as passed as ``DATA_FILE`` argument
 
-##### Step 2 : Start the load test
+##### Step 3 : Start the load test
 
 ```
-./scripts/start-load-test.sh -n <<VMSS_NAME>> -c <<ACTIONS_CACHE_URL>> -g <<ACTIONS_RUNTIME_TOKEN>>
+sh scripts/start-load-test.sh -n <<VMSS_NAME>> -f <<DATA_FILE>>
 ```
 
-The `VMSS_NAME` is the same as the one created in the previous step. The `ACTIONS_CACHE_URL` and `ACTIONS_RUNTIME_TOKEN` are available to runners in real world scenario as environment variables. The load test script expects them to be set in input so that it can inturn set the env variables. 
+The `VMSS_NAME` is the same as the one created in the previous step. The load test script expects them to be set in input so that it can inturn set the env variables. 
 
 You can increase the load test time, the request per min, etc by providing appropriate arguments to the script. See the script for more details. 
