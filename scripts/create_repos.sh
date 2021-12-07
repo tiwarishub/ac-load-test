@@ -40,11 +40,11 @@ do
     repo_name="${REPO_PREFIX}-`uuidgen`"
     gh repo create "bbq-beets/$repo_name" --private -y --template bbq-beets/${TEMPLATE_REPO}
     if [ $? == "1" ]; then
-        echo "Repo creation is getting failed, exiting"
+        echo "Repo creation is getting failed, exiting. Already created repos are present in $ROOT/$DATAFILE"
        exit 1
     fi
 
-     echo "${repo_name}" >> $ROOT/$DATA_FILE
+    echo "${repo_name}" >> $ROOT/$DATA_FILE
     let "i++"
 done
 

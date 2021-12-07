@@ -37,6 +37,3 @@ mv 10GB.zip caches_10000MB.tgz
 
 touch /tmp/saved_cache_result
 chmod 666 /tmp/saved_cache_result
-
-
-
