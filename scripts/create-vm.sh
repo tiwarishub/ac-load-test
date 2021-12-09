@@ -1,17 +1,23 @@
 #!/bin/bash
 
 #############################################################################################################################################################
+#
 # Filename:     create_vm.sh
 # 
-# Descriptioni:  This script is used to create single vmss, which can contain VM_COUNT number(-c) of VM instances. 
+# Descriptioni:  This script is used to create single vmss under your default azure subscription, which can contain VM_COUNT number(-c) of VM instances.
+#               In addition of this, this script will also install necessary dependenices listed in script `prepare-load-test-script.sh`using PerfInit extension.
+#               These dependencies are required in order to  generate load from each VMs using `load.py` script
 #
-# Usage:        -c : Number of VMs instances which vmss should have.
+# Usage:        -c : Number of VMs instances which vmss should have. Default is set to 1
 #               -g : Resouce group under vmss will be created
 #               -n : Name of vmss
 #               -i : Name of VM image. Default value is 'Canonical:UbuntuServer:18.04-LTS:latest'
 #               -l : Localtion under which new vmss will be created. Defailt is set to 'EastUS2' (because it is same the location in which AC is also deployed).
 #
 # Output:       vmss with given configuration will be created on azure
+#
+# Example:      sh create-vm.sh -n myvmss -c 10
+#               Above command will create one vmss with name myvmss and this vmss will have 10 vm instances.
 ################################################################################################################################################################
 
 VM_SKU='Standard_D2s_v3'

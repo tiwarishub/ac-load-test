@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #############################################################################################################################################################
+#
 # Filename:     token_refresh.sh
 # 
 # Descriptioni:  This script is used to create a repository csv secret file, in which each line will have hostID, ac base URl and its recent token.
@@ -17,6 +18,7 @@
 # Example:      `sh token_refresh.sh ring1_repo_data.txt` 
 #                Above command will refresh token for all the repos present in ring1_repo_data.txt file and will store the repo name, ac base url and its token in
 #                ring1_repo_data.secret file
+#
 ################################################################################################################################################################
 
 if [ -z $1 ]; then

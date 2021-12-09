@@ -1,5 +1,32 @@
 #!/bin/bash
 
+#############################################################################################################################################################
+#
+# Filename:     start-load-test.sh
+# 
+# Descriptioni:  This script is used to start load test for ac service. This script should be provided with one vmss which must contain one or more vm instances.
+#                It also expects one data file which must contain repo name, host ac base url and its token. 
+#                Each hostID will assigned to one VM. So number of hostID in your file should be less than or equal to vmss vm instances or use -h (NUM_OF_HOST) parameter to specify less number. 
+#                Now based on provided JPM and RPM parameters, this script will send parallel upload cache and download cache request to ac service. 
+# 
+# Usage:        -n : The name of vmss which will have VMs which will be used to 
+#               -l : Download cache rpm. Default is set to 10
+#               -j : Upload cache jobs per min. Default is set to 2
+#               -t : Load test min. Default is set to 1
+#               -f : Data file. This data file should be csv file which should repo name, ac base url and its token. Use token_refresh.sh script to generate this file.
+#               -s : The size of the cache (in MB) which will be uploaded. Supported values are 5, 10, 5000, 10000.
+#               -h : Number of host ids to be used from data file. Default is set to 1.
+#
+# Output:       Parallel upload and download cache request will be sent to ac service for given duration from each VM of vmss. 
+#
+# Example:      `sh scripts/start-load-test2.sh -n myvmss  -l 50 -j 0.2 -t 1 -f ring0_repo_data.secrets -s 5000 -h 10 -t 15`
+#               Above command will start the load test for 15 mins for 10 host ID (taken from ring0_repo_data.secrets) and will use 10 vm instances from vmss myvmss and will send parallel upload and download cache request
+#               This will send 50 download cache request per min i.e. one download cache request will send every 1.2s till 15 mins
+#               For upload cache, it is set to 0.2 JPM which means one upload cache request for 5000MB will send every 300sec till 15 mins.
+#               Above requests will be sent from each VM and we will send these request parallely from 10 Vms
+#    
+################################################################################################################################################################
+
 DOWNLOAD_CACHE_RPM=10
 UPLOAD_CACHE_JPM=2
 LOAD_TEST_TIME_MIN=2
