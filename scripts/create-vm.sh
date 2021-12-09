@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#############################################################################################################################################################
+# Filename:     create_vm.sh
+# 
+# Descriptioni:  This script is used to create single vmss, which can contain VM_COUNT number(-c) of VM instances. 
+#
+# Usage:        -c : Number of VMs instances which vmss should have.
+#               -g : Resouce group under vmss will be created
+#               -n : Name of vmss
+#               -i : Name of VM image. Default value is 'Canonical:UbuntuServer:18.04-LTS:latest'
+#               -l : Localtion under which new vmss will be created. Defailt is set to 'EastUS2' (because it is same the location in which AC is also deployed).
+#
+# Output:       vmss with given configuration will be created on azure
+################################################################################################################################################################
+
 VM_SKU='Standard_D2s_v3'
 VM_COUNT=1
 LOCATION='EastUS2'
